@@ -1,0 +1,62 @@
+Get-NetTCPConnection | Where-Object { $_.State -eq 'Listen' -and $_.LocalAddress -eq '0.0.0.0' } | Select-Object LocalAddress, LocalPort, State
+
+
+    if ($shares -eq $null) {
+        Write-Host "No shares found or unable to retrieve shares."
+        return
+    }
+
+    $unauthorizedShares = @()
+
+    foreach ($share in $shares) {
+        # Check if share name matches the unauthorized pattern
+        if ($share.Name -like $UnauthorizedSharePattern) {
+            $unauthorizedShares += $share
+        }
+
+        # Check if the share is in a sensitive folder (optional)
+        if ($share.Path -like "$SensitivePath*") {
+            $unauthorizedShares += $share
+        }
+    }
+
+    # If unauthorized shares are found, display them
+    if ($unauthorizedShares.Count -gt 0) {
+        Write-Host "Unauthorized network shares found:"
+        $unauthorizedShares | Format-Table Name, Path, Description
+    } else {
+        Write-Host "No unauthorized network shares detected."
+    }
+}
+
+# Example usage
+$unauthorizedSharePattern = "*public*"  # Example pattern for share names (e.g., any share with 'public' in the name)
+$sensitivePath = "C:\SensitiveData"    # Example sensitive path
+
+Check-UnauthorizedShares -UnauthorizedSharePattern $unauthorizedSharePattern -SensitivePath $sensitivePath
+
+
+# Enable Windows Defender Firewall for all network profiles (Domain, Private, Public)
+Write-Host "Enabling Windows Defender Firewall for all network profiles..."
+Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled True
+Write-Host "Windows Defender Firewall is now enabled for all network profiles."
+
+
+
+
+# Enable Windows Defender Firewall for all network profiles (Domain, Private, Public)
+Write-Host "Enabling Windows Defender Firewall for all network profiles..."
+Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled True
+Write-Host "Windows Defender Firewall is now 
+
+
+
+
+
+# Enable Windows Defender Firewall for all network profiles (Domain, Private, Public)
+Write-Host "Enabling Windows Defender Firewall for all network profiles..."
+Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled True
+Write-Host "Windows Defender Firewall is now enabled for all network profiles.”
+
+
+
